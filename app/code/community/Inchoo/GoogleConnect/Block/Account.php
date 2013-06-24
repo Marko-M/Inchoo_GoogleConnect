@@ -46,10 +46,7 @@ class Inchoo_GoogleConnect_Block_Account extends Mage_Core_Block_Template
                 !($this->oauth2 = $model->getOauth2()))
                 return;
 
-        $this->userInfo = Mage::getSingleton(
-            'inchoo_googleconnect/userinfo',
-            array('client' => $this->client, 'oauth2' => $this->oauth2)
-        )->getUserInfo();
+        $this->userInfo = Mage::registry('inchoo_googleconnect_userinfo');
 
         $this->setTemplate('inchoo/googleconnect/account.phtml');
     }

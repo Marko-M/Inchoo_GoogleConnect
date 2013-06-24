@@ -35,9 +35,10 @@ class Inchoo_GoogleConnect_Model_Userinfo
 {
     protected $userInfo = null;
 
-    public function __construct(array $params) {
-        $client = $params['client'];
-        $oauth2 = $params['oauth2'];
+    public function __construct() {
+        $model = Mage::getSingleton('inchoo_googleconnect/client');
+        $client = $model->getClient();
+        $oauth2 = $model->getOauth2();
         
         if(!Mage::getSingleton('customer/session')->isLoggedIn())
             return;
@@ -50,24 +51,28 @@ class Inchoo_GoogleConnect_Model_Userinfo
 
             try{
                 $client->setAccessToken($googleconnectToken);
-
-                if(($googleconnectToken = $client->getAccessToken())) {
-                    $this->userInfo = $oauth2->userinfo->get();
-
-                    $customer->setInchooGoogleconnectToken($googleconnectToken);
-                    $customer->save();
-                }
+                $this->userInfo = $oauth2->userinfo->get();
 
             } catch(Google_ServiceException $e) {
                 // User revoked our credentials
                 $helper->disconnect($customer);
-                Mage::getSingleton('core/session')->addNotice($e->getMessage());
+                Mage::getSingleton('core/session')
+                    ->addNotice(
+                        $helper->__('Permission to access your Google account 
+                        has been revoked. You can restore permissions by 
+                        connecting your Google account again.')
+                    );
             } catch(Google_AuthException $e) {
-                /* Token expired (shouldn't happen due to $this->client->setAccessType('offline'),
+                /* Token expired (shouldn't happen due to access type 'offline',
                  * google client refreshes token automatically) */
                 $helper->disconnect($customer);
                 Mage::getSingleton('core/session')->addError($e->getMessage());
+            } catch(Google_AuthException $e) {
+                // General exception
+                $helper->disconnect($customer);
+                Mage::getSingleton('core/session')->addError($e->getMessage());
             }
+            
         }
     }
 

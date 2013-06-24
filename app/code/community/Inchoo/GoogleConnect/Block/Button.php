@@ -35,7 +35,7 @@ class Inchoo_GoogleConnect_Block_Button extends Mage_Core_Block_Template
 {
     protected $client = null;
     protected $oauth2 = null;
-    protected $userInfo = false;
+    protected $userInfo = null;
 
     protected function _construct() {
         parent::_construct();
@@ -46,10 +46,7 @@ class Inchoo_GoogleConnect_Block_Button extends Mage_Core_Block_Template
                 !($this->oauth2 = $model->getOauth2())) 
                 return;
         
-        $this->userInfo = Mage::getSingleton(
-            'inchoo_googleconnect/userinfo',
-            array('client' => $this->client, 'oauth2' => $this->oauth2)
-        )->getUserInfo();
+        $this->userInfo = Mage::registry('inchoo_googleconnect_userinfo');
 
         $state = Mage::helper('core/url')->getCurrentUrl();
         if(($referer = Mage::getSingleton('customer/session')->getBeforeAuthUrl(true))){

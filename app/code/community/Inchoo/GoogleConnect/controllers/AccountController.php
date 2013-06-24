@@ -48,7 +48,12 @@ class Inchoo_GoogleConnect_AccountController extends Mage_Core_Controller_Front_
     }    
 
     public function indexAction()
-    {
+    {        
+        $userInfo = Mage::getSingleton('inchoo_googleconnect/userinfo')
+                ->getUserInfo();
+        
+        Mage::register('inchoo_googleconnect_userinfo', $userInfo);
+        
         $this->loadLayout();
         $this->renderLayout();
     }
