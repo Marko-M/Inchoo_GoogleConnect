@@ -1,0 +1,6 @@
+app/code/community/Inchoo/GoogleConnect/                            app/code/community/Inchoo/GoogleConnect/
+app/design/frontend/base/default/layout/inchoo_googleconnect.xml    app/design/frontend/base/default/layout/inchoo_googleconnect.xml
+app/design/frontend/base/default/template/inchoo/googleconnect/     app/design/frontend/base/default/template/inchoo/googleconnect/
+app/etc/modules/Inchoo_GoogleConnect.xml                            app/etc/modules/Inchoo_GoogleConnect.xml
+lib/GoogleApiPhpClient/                                             lib/GoogleApiPhpClient/
+skin/frontend/base/default/inchoo_googleconnect/                    skin/frontend/base/default/inchoo_googleconnect/
