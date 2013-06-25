@@ -57,7 +57,11 @@ class Inchoo_GoogleConnect_Model_Client
             $this->client->setApplicationName(self::APPLICATION_NAME);
             $this->client->setClientId($clientId);
             $this->client->setClientSecret($clientSecret);
-            $this->client->setRedirectUri(Mage::getUrl(self::REDIRECT_URI_ROUTE));
+            $this->client->setRedirectUri(
+                Mage::getModel('core/url')->sessionUrlVar(
+                        Mage::getUrl(self::REDIRECT_URI_ROUTE)
+                    )
+                );
 
             $this->oauth2 = new Google_Oauth2Service($this->client);
         }
