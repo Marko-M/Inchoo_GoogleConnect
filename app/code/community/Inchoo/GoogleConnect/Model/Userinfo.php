@@ -51,7 +51,13 @@ class Inchoo_GoogleConnect_Model_Userinfo
 
             try{
                 $client->setAccessToken($googleconnectToken);
+                
                 $this->userInfo = $oauth2->userinfo->get();
+
+                /* The access token may have been updated automatically due to 
+                 * access type 'offline' */
+                $customer->setInchooGoogleconnectToken($client->getAccessToken());
+                $customer->save();           
 
             } catch(Google_ServiceException $e) {
                 // User revoked our credentials
