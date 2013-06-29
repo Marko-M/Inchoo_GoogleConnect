@@ -73,7 +73,7 @@ class Inchoo_GoogleConnect_Model_Userinfo
                  * google client refreshes token automatically) */
                 $helper->disconnect($customer);
                 Mage::getSingleton('core/session')->addError($e->getMessage());
-            } catch(Google_AuthException $e) {
+            } catch(Exception $e) {
                 // General exception
                 $helper->disconnect($customer);
                 Mage::getSingleton('core/session')->addError($e->getMessage());
